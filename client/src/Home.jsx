@@ -15,62 +15,69 @@ L.Icon.Default.mergeOptions({
 });
 
 const Home = () => {
-// console.log(users.users);
-var [userData,setData] = useState([]);
+    // console.log(users.users);
+    var [areaData, setData] = useState([]);
+    // var [userData, setUserData] = useState([]);
+    var a = {};
 
-const fatchArea = async () =>{
-    await axios.get('https://kyupid-api.vercel.app/api/areas').then((data) =>{
-        setData(userData =>([...userData,data.data]));
-    }).catch((err)=>{
-        console.log(err);
-        console.log(err);
-    })
+    const fatchArea = async () => {
+        await axios.get('https://kyupid-api.vercel.app/api/areas').then((data) => {
+            setData(areaData => ([...areaData, data.data]));
+        }).catch((err) => {
+            console.log(err);
 
-}
-useEffect(()=>{
-    // setData([]);
-    fatchArea();
+        })
 
-},[]);
+    }
 
-console.log(userData[0]);
+
+    const fatchUser = async () => {
+        await axios.get('https://kyupid-api.vercel.app/api/users').then((data) => {
+
+            data.data.users.map((data) => {
+
+                a[data.area_id] = [0, 0, 0, 0];
+
+
+            })
+            console.log(a);
+
+
+            data.data.users.map((data) => {
+
+
+                a[data.area_id][0]++;
+                if (data.gender === 'M')
+                    a[data.area_id][1]++;
+                else
+                    a[data.area_id][2]++;
+
+                if (data.is_pro_user === true)
+                    a[data.area_id][3]++;
+            })
+            localStorage.setItem("arr", JSON.stringify(a));
+            console.log(a);
+        }).catch((err) => {
+            console.log(err);
+            console.log(err);
+        })
+
+    }
+    useEffect(() => {
+        fatchArea();
+        fatchUser();
+    }, []);
+    var d = JSON.parse(localStorage.getItem("arr"));
+    console.log(d);
 
     const onEachFeature = (feature, layer) => {
-        var fem = 0;
-        var male = 0;
-        var sub = 0;
-        var total = 0;
-        
-        users.users.map((user) =>{
-            if(user.area_id===feature.properties.area_id)
-            {
-                if(user.is_pro_user)
-                {
-                    sub++;
-                }
-                if(user.gender==='F')
-                {
-                    fem++;
-                }
-                else
-                {
-                    male++;
-                }
-                
-                total++;
-
-            }
-        
-        })
-        
-
-        const ppop = `<div>${feature.properties.name}<br>total user: ${total}<br>female:${fem}<br>male:${male}<br>pro user:${sub}<br>id:${feature.properties.area_id}</div>`
+        const ppop = `<div>${feature.properties.name}<br>total user: ${d[feature.properties.area_id][0]}<br>male:${d[feature.properties.area_id][1]}<br>female:${d[feature.properties.area_id][2]}<br>pro user:${d[feature.properties.area_id][3]}<br>id:${feature.properties.area_id}</div>`
         layer.bindPopup(ppop);
     }
-    
+
     const position = [12.9716, 77.5946];
     console.log(countries.features);
-    console.log(userData[0]);
+
     return (
         <MapContainer center={position} zoom={13}>
             <TileLayer
@@ -78,10 +85,10 @@ console.log(userData[0]);
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {
-                userData[0]!==undefined?
-            <GeoJSON data={userData[0].features} onEachFeature={onEachFeature} />
-            :
-            <></>
+                areaData[0] !== undefined ?
+                    <GeoJSON data={areaData[0].features} onEachFeature={onEachFeature} />
+                    :
+                    <></>
             }
         </MapContainer>
     )
