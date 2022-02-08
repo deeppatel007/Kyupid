@@ -9,7 +9,7 @@ function App() {
 
    <BrowserRouter>
      <Routes>
-       <Route excat path ='/' element={<Home></Home>}></Route>
+       <Route exact path ='/' element={<Home></Home>}></Route>
      </Routes>
    </BrowserRouter>
   );

@@ -1,6 +1,4 @@
 import L from 'leaflet';
-import countries from './data.json';
-import users from './users.json';
 import { MapContainer, Marker, Popup, TileLayer, GeoJSON, FeatureGroup, Circle } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useRef, useState } from 'react';
@@ -106,7 +104,6 @@ const Home = () => {
     }
 
     const position = [12.9716, 77.5946];
-    console.log(countries.features);
 
     return (
         <div >
