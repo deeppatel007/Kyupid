@@ -1,4 +1,4 @@
-## Kyupid ( https://kyupid01.herokuapp.com/ )
+## Kyupid ( https://kyupidproject01.herokuapp.com/ )
 
 ## Features
 - popups on hover to display relevant data like revenue per area, number of user per area , Male and Female users etc on the map.
