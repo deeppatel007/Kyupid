@@ -3,7 +3,6 @@ import { MapContainer, Marker, Popup, TileLayer, GeoJSON, FeatureGroup, Circle }
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { PieChart } from 'react-minimal-pie-chart';
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -32,14 +31,9 @@ const Home = () => {
             data.data.users.map((data) => {
 
                 a[data.area_id] = [0, 0, 0, 0, 0, 0, 0];
-
-
             })
-            console.log(a);
-
-
+        
             data.data.users.map((data) => {
-
 
                 a[data.area_id][0]++;
                 if (data.gender === 'M')
@@ -60,7 +54,6 @@ const Home = () => {
                 }
             })
             localStorage.setItem("arr", JSON.stringify(a));
-            console.log(a);
         }).catch((err) => {
             console.log(err);
             console.log(err);
@@ -71,17 +64,16 @@ const Home = () => {
         fatchArea();
         fatchUser();
     }, []);
+
     var d = JSON.parse(localStorage.getItem("arr"));
 
     const onEachFeature = (feature, layer) => {
-        console.log(feature);
-        const ppop = `<div style="width:500; "><h1>Area Name: ${feature.properties.name}<br>
+        const ppop = `<div style="background-color:#e6e6fa "><h2>Area Name: ${feature.properties.name}<br>
         Total User: ${d[feature.properties.area_id][0]}<br>
         Male User:${d[feature.properties.area_id][1]}<br>
         Female User:${d[feature.properties.area_id][2]}<br>
-        Pro User:${d[feature.properties.area_id][3]}<br></h1>
-        </div>
-       `
+        Pro User:${d[feature.properties.area_id][3]}<br></h2>
+        </div>`
         layer.bindPopup(ppop);
         layer.options.fillOpacity = (d[feature.properties.area_id][0]) / 350;
         layer.on({
@@ -89,14 +81,14 @@ const Home = () => {
                 this.openPopup()
             },
             click: function click(e) {
-                const ppop = `<div><h1>Area Name :${feature.properties.name}<br>
+                const ppop = `<div style="background-color:#fafad2"><h2>Area Name :${feature.properties.name}<br>
                 Total User: ${d[feature.properties.area_id][0]}<br>
                 Male User:${d[feature.properties.area_id][1]}<br>
                 Female User:${d[feature.properties.area_id][2]}<br>
                 Pro User:${d[feature.properties.area_id][3]}<br>
                 User Age Between 18-25: ${d[feature.properties.area_id][4]}<br>
                 User Age Between 26-30: ${d[feature.properties.area_id][5]}<br>
-                User Age Between 31-40: ${d[feature.properties.area_id][6]}<br></h1></div>`
+                User Age Between 31-40: ${d[feature.properties.area_id][6]}<br></h2></div>`
                 layer.bindPopup(ppop);
                 this.openPopup()
             }
@@ -107,8 +99,7 @@ const Home = () => {
 
     return (
         <div >
-
-            <MapContainer center={position} zoom={12} >
+            <MapContainer center={position} zoom={11} >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
