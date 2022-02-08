@@ -5,7 +5,7 @@ import { MapContainer, Marker, Popup, TileLayer, GeoJSON, FeatureGroup, Circle }
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-
+import Grid from '@mui/material/Grid';
 
 
 L.Icon.Default.mergeOptions({
@@ -71,26 +71,37 @@ const Home = () => {
     console.log(d);
 
     const onEachFeature = (feature, layer) => {
-        const ppop = `<div>${feature.properties.name}<br>total user: ${d[feature.properties.area_id][0]}<br>male:${d[feature.properties.area_id][1]}<br>female:${d[feature.properties.area_id][2]}<br>pro user:${d[feature.properties.area_id][3]}<br>id:${feature.properties.area_id}</div>`
+        console.log(feature);
+        const ppop = `<div><h1>${feature.properties.name}<br>Total User: ${d[feature.properties.area_id][0]}<br>Male User:${d[feature.properties.area_id][1]}<br>Female User:${d[feature.properties.area_id][2]}<br>Pro User:${d[feature.properties.area_id][3]}<br></h1></div>`
         layer.bindPopup(ppop);
+        layer.options.fillOpacity = (d[feature.properties.area_id][0]) / 350;
+        layer.on({
+            mouseover: function over(e) {
+                this.openPopup()
+            }
+        })
     }
 
     const position = [12.9716, 77.5946];
     console.log(countries.features);
 
     return (
-        <MapContainer center={position} zoom={13}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {
-                areaData[0] !== undefined ?
-                    <GeoJSON data={areaData[0].features} onEachFeature={onEachFeature} />
-                    :
-                    <></>
-            }
-        </MapContainer>
+        <div >
+
+            <MapContainer center={position} zoom={13} >
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {
+                    areaData[0] !== undefined ?
+                        <GeoJSON data={areaData[0].features} onEachFeature={onEachFeature} />
+                        :
+                        <></>
+                }
+            </MapContainer>
+
+        </div>
     )
 }
 
