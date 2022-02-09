@@ -1,12 +1,12 @@
 ## Kyupid ( https://kyupidproject01.herokuapp.com/ )
 
 ## Features
-- popups on hover to display relevant data like revenue per area, number of user per area , Male and Female users etc on the map.
-- popups on click on perticuler area to see additional important information.
-- Color opacity of the areas based on the number of acctive users in area we have.
+- popups on hover to display relevant data like revenue per area, number of users per area , Male and Female users etc on the map.
+- pop ups on click on a particular area to see additional important information.
+- Color opacity of the areas based on the number of active users in the area we have.
 
 ## Thoughts on what you can improve in the future
-- we can generate pie charts on basis of given data so that users can understand it easily. 
+- we can generate pie charts on the basis of given data so that users can understand it easily. 
 
 # Getting Started with Create React App
 
